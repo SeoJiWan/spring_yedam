@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- config.dtd -->
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- 언더바 표기법 -> 카멜 표기법으로 변경 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"></setting>
+		<!-- 파라미터로 빈 값을 보낼 경우 -->
+		<setting name="jdbcTypeForNull" value="NULL"></setting>
+	</settings>
+	<typeAliases>
+		<!-- 개별 alias 로 지정 -->
+		<typeAlias type="com.yedam.java.emp.domain.Emp" alias="Emp"/>
+		<!-- 패키지로 지정 : Container 에 등록된 Bean 을 찾음 -->
+		<package name="com.yedam.java.emp.service.impl"/>
+	</typeAliases>
+	<!-- Date 타입 다룰 때 typeHandler 용이 -->
+	<typeHandlers>
+		<typeHandler javaType="java.sql.Date" handler="org.apache.ibatis.type.DateTypeHandler"/>
+	</typeHandlers>
+</configuration>

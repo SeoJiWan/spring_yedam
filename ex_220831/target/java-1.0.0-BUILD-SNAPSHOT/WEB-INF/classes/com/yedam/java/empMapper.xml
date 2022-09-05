@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- EmpMapper 인터페이스와 매핑 -->
+<mapper namespace="com.yedam.java.EmpMapper">
+	<!-- id : 메서드 이름 -->
+	<!-- public EmpVO getEmpVO(EmpVO empvo); -->
+	<select id="getEmp" parameterType="com.yedam.java.EmpVO" resultType="com.yedam.java.EmpVO">
+		select employee_id, 
+			   first_name, 
+			   last_name,
+			   email,
+			   hire_date,
+			   job_id,
+			   department_id,
+			   salary
+		from employees
+		where employee_id = #{employee_id}
+	</select>
+	
+</mapper>
+
