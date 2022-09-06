@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.yedam.java.emp.domain.Emp;
 import com.yedam.java.emp.mapper.EmpMapper;
+import com.yedam.java.emp.service.EmpService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/spring/*-context.xml")
@@ -72,7 +73,7 @@ public class EmpTest {
 		assertEquals(result, true);
 	}
 	
-	@Test
+	@Ignore
 	public void 사원정보수정() {
 		Emp emp = new Emp();
 		emp.setEmployeeId(208);

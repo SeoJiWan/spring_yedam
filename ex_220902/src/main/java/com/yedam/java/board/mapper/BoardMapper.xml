@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.java.board.mapper.BoardMapper">
+	
+	<!-- 입력될 게시글 번호 자동생성 및 조회 -->
+	<select id="getBoardNo" resultType="Board">
+		<!-- alias 를 필드명으로 줘야함 -->
+		select nvl(max(bno), 0) + 1 as bno from board
+	</select>
+	
+	<!-- 전체조회 -->
+	<select id="getBoardList" resultType="Board">
+		select * from board order by bno
+	</select>
+	
+	<!-- 단건조회 -->
+	<select id="getBoardInfo" parameterType="Board" resultType="Board">
+		select bno,
+			   title,
+			   contents,
+			   writer,
+			   regdate,
+			   updatedate,
+			   image
+		from board
+		<where>
+			<if test="writer != null and !writer.equals('')">
+				writer = #{writer} and 
+			</if>
+			<if test="bno > 0">
+				bno = #{bno}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertBoard" parameterType="Board">
+		<!-- 
+			selectKey 동작방식 : 
+			1. 쿼리문으로 반환된 값을 bno 에 저장
+			2. bno 를 parameterType 인 Board 에 매핑
+			3. 매핑된 bno 를 아래 insert 쿼리에서 사용 
+		-->
+		<!-- 
+		<selectKey keyProperty="bno" resultType="Integer" order="BEFORE">
+			select nvl(max(bno), 0) + 1 from board
+		</selectKey>
+		-->
+		<!--
+			다중 컬럼 값을 가지고 오는 경우 MyBatis 3.2.6 버전 이상 
+			<selectKey keyColumn="employee_id,first_name" keyProperty="employeeId,firstName" resultType="hashmap" order="BEFORE">
+				select employee_id, first_name, from employees where employee_id = #{employeeId}
+			</selectKey>
+		 -->
+		insert into board (
+						    bno
+						    ,title
+						    ,contents
+						    ,writer
+						    <if test="regdate != null">
+						    ,regdate
+						    </if>
+						    ,updatedate
+						    ,image
+						    )
+					values  (
+							#{bno}
+							,#{title}
+							,#{contents}
+							,#{writer}
+							<if test="regdate != null">
+							,#{regdate}
+							</if>
+							,#{updatedate}
+							,#{image}
+						    )	
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateBoard" parameterType="Board">
+		update board
+		<set>
+			<if test="title != null and !title.equals('')">title=#{title},</if>
+			<if test="contents != null and !contents.equals('')">contents=#{contents},</if>
+			<if test="image != null and !image.equals('')">image=#{image},</if>
+			<!-- 
+			<if test="updatedate != null">updatedate = #{updatedate}</if>
+			<if test="updatedate == null">updatedate = sysdate</if>
+			 --> 
+			 updatedate = sysdate
+		</set>
+		where bno = #{bno}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteBoard" parameterType="Integer">
+		<!-- 인터페이스에서 @Param("bno") 를 넣지 않는다면 인터페이스에서 정의한 변수명인 boardNo 을 써야함 -->
+		delete from board where bno = #{bno}
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+</mapper>

@@ -27,6 +27,6 @@
 	</bean>
 	
 	<!-- mapper scan -->
-	<mybatis-spring:scan base-package="com.yedam.java"></mybatis-spring:scan>
+	<mybatis-spring:scan base-package="com.yedam.java.**.mapper"></mybatis-spring:scan>
 	
 </beans>

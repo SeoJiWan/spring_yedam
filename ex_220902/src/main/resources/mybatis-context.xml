@@ -13,8 +13,11 @@
 	<typeAliases>
 		<!-- 개별 alias 로 지정 -->
 		<typeAlias type="com.yedam.java.emp.domain.Emp" alias="Emp"/>
+		<!-- <typeAlias type="com.yedam.java.board.doamin.Board" alias="Board"/> -->
 		<!-- 패키지로 지정 : Container 에 등록된 Bean 을 찾음 -->
 		<package name="com.yedam.java.emp.service.impl"/>
+		<!-- <package name="com.yedam.java.board.service.impl"/> -->
+		<package name="com.yedam.java.board"/>
 	</typeAliases>
 	<!-- Date 타입 다룰 때 typeHandler 용이 -->
 	<typeHandlers>
