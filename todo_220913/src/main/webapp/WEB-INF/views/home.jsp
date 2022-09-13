@@ -3,7 +3,7 @@
 <html>
 <head>
 	<title>Home</title>
-	<link rel="stylesheet" href="css/home.css">
+	<link rel="stylesheet" href="/css/home.css">
 	<style type="text/css">
 		/* Include the padding and border in an element's total width and height */
 		* {
@@ -119,24 +119,71 @@
 		.addBtn:hover {
 		  background-color: #bbb;
 		}
+		
+		button {
+			border: none;
+			background-color: transparent;
+		}
 	</style>
+	
+	<!-- jquery -->
+  	<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
 	
 </head>
 <body>
 	<div id="myDIV" class="header">
 	  <h2>My To Do List</h2>
-	  <input type="text" id="myInput" placeholder="Title...">
-	  <span onclick="newElement()" class="addBtn">Add</span>
+	  <form action="insert" method="post">
+		  <input type="text" id="myInput" name="contents" placeholder="Title...">
+		  <button type="submit" class="addBtn">Add</button>
+	  </form>
 	</div>
 	
 	<ul id="myUL">
-	  <li>Hit the gym</li>
-	  <li class="checked">Pay bills</li>
-	  <li>Meet George</li>
-	  <li>Buy eggs</li>
-	  <li>Read a book</li>
-	  <li>Organize office</li>
+	<c:forEach items="${list }"  var="item">
+		<c:if test="${item.todoyn eq '1'}">
+		<li class="checked" onclick="update(${item.no}, ${item.todoyn})">
+		${item.contents}
+			<form action="delete" method="get">
+				<input type="hidden" value="${item.no}" name="no">
+				<button type="submit" class="close">X</button>
+			</form>
+		</li>
+		</c:if>
+		<c:if test="${item.todoyn ne '1'}">
+		<li onclick="update(${item.no}, ${item.todoyn})">
+		${item.contents}
+			<form action="delete" method="get">
+				<input type="hidden" value="${item.no}" name="no">
+				<button type="submit" class="close">X</button>
+			</form>
+		</li>
+		</c:if>
+			
+		
+	</c:forEach>
+	  
 	</ul>
+	
+	<script type="text/javascript">
+	function update(no, todoyn) {
+		console.log(no)
+		$.ajax({
+			type: "get",
+			url: "update",
+			data: {
+				no: no,
+				todoyn: todoyn
+			},
+			success: function(data) {
+				//console.log("aaa");
+				location.reload(); // 컨트롤러에서 리턴은 안먹는건지?
+			}
+		
+		})
+	}
+	</script>
 
 </body>
 </html>

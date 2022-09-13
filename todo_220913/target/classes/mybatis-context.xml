@@ -11,7 +11,7 @@
 		<setting name="jdbcTypeForNull" value="NULL"></setting>
 	</settings>
 	<typeAliases>
-
+		<typeAlias type="com.yedam.java.domain.Todo" alias="Todo"/>
 	</typeAliases>
 	<!-- Date 타입 다룰 때 typeHandler 용이 -->
 	<typeHandlers>
