@@ -5,10 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.yedam.java.domain.Todo;
 import com.yedam.java.service.TodoService;
@@ -16,7 +20,9 @@ import com.yedam.java.service.TodoService;
 /**
  * Handles requests for the application home page.
  */
-@Controller
+
+@RestController
+@CrossOrigin(originPatterns = "http://127.0.0.1:5500")
 public class HomeController {
 	
 	@Autowired TodoService todoService;
@@ -25,16 +31,17 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model) {
+	public List<Todo> home(Model model) {
 		List<Todo> list = todoService.selectAll();
-		list.forEach(System.out::println);
+//		list.forEach(System.out::println);
+		System.out.println("list = " + list);
 		model.addAttribute("list", list);
 		
-		return "home";
+		return list;
 	}
 	
-	@PostMapping("/insert")
-	public String insertItem(Todo todo) {
+	@GetMapping("/insert")
+	public void insertItem(Todo todo) {
 		System.out.println("aaaaaaaa");
 		todo.setNo(todoService.getTodoNo());
 		todo.setId(0);
@@ -42,27 +49,20 @@ public class HomeController {
 		
 		System.out.println("todo = " + todo);
 		todoService.insertItem(todo);
-		return "redirect:/";
 	}
 	
-	@GetMapping("/delete")
-	public String deleteItem(Todo todo) {
-		System.out.println("del_todo = " + todo);
-		todoService.deleteItem(todo);
-		return "redirect:/";
+	@DeleteMapping("/todo/{no}")
+	public void deleteItem(@PathVariable int no) {
+//		System.out.println("del_todo = " + todo);
+		todoService.deleteItem(no);
+//		return no;
 	}
 	
 	@GetMapping("/update")
-	public String updateItem(Todo todo) {
-		if (todo.getTodoyn().equals("1")) {
-			todo.setTodoyn("0");
-		}
-		else {
-			todo.setTodoyn("1");
-		}
+	public void updateItem(Todo todo) {
 		System.out.println("update_todo = " + todo);
 		todoService.updateItem(todo);
-		return "redirect:/";
+		//return "redirect:/";
 	}
 	
 }

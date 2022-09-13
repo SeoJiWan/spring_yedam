@@ -25,8 +25,8 @@ public class TodoService {
 		mapper.insert(todo);
 	}
 	
-	public void deleteItem(Todo todo) {
-		mapper.delete(todo);
+	public void deleteItem(int no) {
+		mapper.delete(no);
 	}
 	
 	public void updateItem(Todo todo) {
