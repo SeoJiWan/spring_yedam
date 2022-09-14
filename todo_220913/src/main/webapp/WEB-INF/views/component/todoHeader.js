@@ -30,8 +30,6 @@ export default {
           contents: this.content,
         },
 
-        dataType: "json",
-
         success: function (data) {
           if (data != null) {
             console.log(data);
